@@ -1,0 +1,30 @@
+app:
+  numberRetryGetStatus: 5
+  secondSleepBeforeGetStatus: 1000
+  secondProcessInLock: 604800
+  secondTransLogInCache: 604800
+  gateWayTimeOut: 5000
+  clientInfo:
+    1: abc@123
+  activemq:
+    process.destination: "processor-queue"
+    getStatus.destination: "getstatus-queue"
+
+
+kafka-producer-config:
+  webBackendBootstrapServers: "159.65.140.204:9092"
+  webBackendResultTopic: "status-callback-topic"
+  autoOffsetReset: "earliest"
+  enableAutoCommit: true
+  autoCommitIntervalMs: "30000" # miliseconds
+  sessionTimeoutMs: 30000 # miliseconds
+
+gateway:
+  client:
+    grpc:
+      target: "128.199.176.153:8082"
+      useSSL: false
+      poolSize: 2
+  numberRetry: 1
+  clientID: 1
+  clientKey: abc@123

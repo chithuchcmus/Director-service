@@ -1,0 +1,35 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "vn.com.director.api";
+package director.api;
+
+service DirectorService {
+  rpc processDirect (DirectRequest) returns (DirectResponse);
+  rpc getStatusDirect (StatusDirectRequest) returns (DirectResponse);
+}
+
+message DirectRequest {
+  string requestID = 1;
+  string data = 2; // idMedia, list ServiceType  =4
+  int32 clientID = 3;
+  int64 requestDate = 4;
+  string sig = 5;
+}
+enum ServiceType{
+  UNKNOWN = 0;
+  TESSERACT = 1;
+  AI2 = 2;
+  AI3 = 3;
+}
+message DirectResponse {
+  int32 return_code = 1;
+  string transID = 2;
+  string message = 3;
+}
+
+message StatusDirectRequest{
+  string transID = 1;
+  int32 clientID = 2;
+  int64 requestDate = 3;
+  string sig = 4;
+}

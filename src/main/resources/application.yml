@@ -1,0 +1,32 @@
+# This file contains all common configurations that will be used in all environments
+# Any environment-specific configuration must be defined in application-[environment].yml
+server:
+  port: 8081
+grpc:
+  port: 6566
+spring:
+  application:
+    name: director-service
+  redis:
+    timeout: 1000ms
+    host: 159.65.13.169
+    port: 6379
+    password: password
+  kafka:
+    listener:
+      concurrency: 4
+    producer:
+      bootstrap-servers: 159.65.140.204:9092
+      acks: all
+      buffer-memory: 33554432
+      retries: 3
+      batch-size: 200
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        retry.backoff.ms: 60000 # combine with `retries`
+        linger.ms: 0 # combine with `batch-size`
+  activemq:
+    broker-url: tcp://localhost:61616
+    packages:
+      trust-all: true
