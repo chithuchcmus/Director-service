@@ -59,6 +59,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
             if (response.getReturnCode() != StatusEnum.PROCESSING.getCode()) {
                 log.info("DirectorProcessorImpl.callAIService error, transID:{}, processEnum: {}, response {}", trans.getTransID(), trans.getProgressEnum(), response.getReturnCode());
                 trans.setStatus(StatusEnum.CALL_GATE_WAY_RESPONSE_ERROR);
+                trans.setProgressStatusEnum(StatusEnum.CALL_GATE_WAY_RESPONSE_ERROR);
                 return;
             }
             log.info("DirectorProcessorImpl.callAIService get status AI, processEnum: {}, transID {}", trans.getProgressEnum(), trans.getTransID());
@@ -70,6 +71,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
         } finally {
             if (!trans.isProcessing()) {
                 cacheClient.saveTrans(trans);
+                sendCallbackStatus(trans);
             }
         }
 
@@ -87,35 +89,30 @@ public class DirectorProcessorImpl implements DirectorProcessor {
                 if (statusResponse.getReturnCode() != StatusEnum.PROCESSING.getCode()) {
                     log.info("DirectorProcessorImpl.getStatusAIProcess error, transID:{}, processEnum: {}, response {}", trans.getTransID(), trans.getProgressEnum(), statusResponse.getReturnCode());
                     trans.setStatus(StatusEnum.GET_STATUS_GATE_WAY_RESPONSE_ERROR);
+                    trans.setProgressStatusEnum(StatusEnum.GET_STATUS_GATE_WAY_RESPONSE_ERROR);
                     return;
                 }
                 int numberRetry = trans.getNumberRetry(trans.getProgressEnum());
                 if (numberRetry >= gateWayConfig.getNumberRetry()) {
                     log.info("DirectorProcessorImpl.getStatusAIProcess error, transID:{}, processEnum: {}, response {}", trans.getTransID(), trans.getProgressEnum(), statusResponse.getReturnCode());
-                    trans.setStatus(StatusEnum.GET_STATUS_GATE_WAY_RESPONSE_ERROR);
+                    trans.setStatus(StatusEnum.MAX_RETRY_GET_STATUS_GATE_WAY);
+                    trans.setProgressStatusEnum(StatusEnum.MAX_RETRY_GET_STATUS_GATE_WAY);
                     return;
                 }
                 trans.increaseNumberRetry(trans.getProgressEnum());
                 getStatusSender.sendMessage(trans);
                 return;
             }
+            trans.setProgressStatusEnum(StatusEnum.SUCCESS);
             GetStatusResponseDataDTO gatewayDataDTO = JsonUtils.parseGson(statusResponse.getData(), GetStatusResponseDataDTO.class);
-            trans.setIdMedia(gatewayDataDTO.getId());
-
-            StatusCallbackMessage statusCallbackMessage = StatusCallbackMessage.builder().build();
-            statusCallbackMessage.setRequestID(trans.getRequestID());
-            statusCallbackMessage.setStatus(StatusEnum.SUCCESS.getCode());
-            statusCallbackMessage.setMessage(StatusEnum.SUCCESS.getDescription());
-            statusCallbackMessage.setServiceType(trans.getProgressEnum().getValue());
-
+            trans.setGatewayResult(gatewayDataDTO.getId());
             if (trans.getListService().isEmpty()) {
                 log.info("DirectorProcessorImpl.getStatusAIProcess successful: trans{} ", JsonUtils.printGson(trans));
                 trans.setStatus(StatusEnum.SUCCESS);
-                statusCallbackMessage.setResult(trans.getIdMedia());
+                trans.setGatewayResult(gatewayDataDTO.getId());
                 return;
             }
             processorSender.sendMessage(trans);
-            webBackendProducer.sendMessage(statusCallbackMessage);
         } catch (Exception e) {
             log.error("DirectorProcessorImpl.getStatusAIProcess exception, at processEnum :{}, exception", trans.getProgressEnum());
             trans.setStatus(StatusEnum.EXCEPTION);
@@ -123,6 +120,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
             if (!trans.isProcessing()) {
                 cacheClient.saveTrans(trans);
             }
+            sendCallbackStatus(trans);
         }
     }
 
@@ -145,6 +143,18 @@ public class DirectorProcessorImpl implements DirectorProcessor {
     protected GetStatusRequest buildStatusRequest(Trans trans) {
         return GetStatusRequest.newBuilder()
                 .setTransId(trans.getGateWayTransID()).build();
+    }
+
+    protected void sendCallbackStatus(Trans trans) {
+        StatusCallbackMessage statusCallbackMessage = StatusCallbackMessage.builder().build();
+        statusCallbackMessage.setTaskID(trans.getRequestID());
+        statusCallbackMessage.setStatus(trans.getProgressStatusEnum().getCode());
+        statusCallbackMessage.setMessage(trans.getProgressStatusEnum().getDescription());
+        statusCallbackMessage.setServiceType(trans.getProgressEnum().name());
+        if (!trans.getGatewayResult().isEmpty()) {
+            statusCallbackMessage.setResult(trans.getGatewayResult());
+        }
+        webBackendProducer.sendMessage(statusCallbackMessage);
     }
 
 }

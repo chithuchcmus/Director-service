@@ -21,9 +21,11 @@ public class Trans implements Serializable {
     private String transID;
     private String gateWayTransID;
     private String idMedia;
+    private String gatewayResult;
     private String clientID;
     private StatusEnum status;
     private ProgressEnum progressEnum;
+    private StatusEnum progressStatusEnum;
     private Map<ProgressEnum, Integer> mappingNumberRetryService;
     private Map<ProgressEnum, Integer> mappingResultWithMedia;
     private List<ServiceType> listService;

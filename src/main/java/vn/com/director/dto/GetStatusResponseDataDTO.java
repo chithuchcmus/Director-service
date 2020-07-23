@@ -1,6 +1,6 @@
 package vn.com.director.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,6 +11,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class GetStatusResponseDataDTO implements Serializable {
-    @JsonProperty("id")
+    @SerializedName("id")
     private String id;
 }

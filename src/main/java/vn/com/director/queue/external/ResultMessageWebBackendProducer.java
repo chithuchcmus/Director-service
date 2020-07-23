@@ -21,6 +21,6 @@ public class ResultMessageWebBackendProducer implements KafkaProducer {
     @Override
     public void sendMessage(StatusCallbackMessage statusCallbackMessage) {
         log.info("Producing message -> {}", JsonUtils.printGson(statusCallbackMessage));
-        kafkaTemplate.send("test-topic", JsonUtils.printGson(statusCallbackMessage));
+        kafkaTemplate.send(kafkaConfig.getWebBackendResultTopic(), JsonUtils.printGson(statusCallbackMessage));
     }
 }

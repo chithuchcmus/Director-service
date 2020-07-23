@@ -10,9 +10,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class StatusCallbackMessage implements Serializable {
-    private String requestID;
+    private String taskID;
     private String message;
     private int status;
-    private int serviceType;
+    private String serviceType;
     private String result;
 }

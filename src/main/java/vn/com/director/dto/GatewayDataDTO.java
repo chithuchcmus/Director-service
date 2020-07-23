@@ -1,6 +1,6 @@
 package vn.com.director.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -15,17 +15,9 @@ import java.io.Serializable;
 @Builder
 
 public class GatewayDataDTO implements Serializable {
+    @SerializedName("event_type")
     private int eventType;
 
+    @SerializedName("id")
     private String id;
-
-    @JsonProperty("event_type")
-    public int getEventType() {
-        return eventType;
-    }
-
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
 }
