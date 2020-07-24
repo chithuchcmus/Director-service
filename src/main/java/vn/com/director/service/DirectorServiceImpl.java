@@ -135,8 +135,8 @@ public class DirectorServiceImpl implements DirectorService {
         int defaultValue = 0;
         DirectorRequestDTO directorRequestDTO = JsonUtils.parseGson(request.getData(), DirectorRequestDTO.class);
         for (ServiceType service : directorRequestDTO.getServiceTypeList()) {
-            log.info("service type: " + service.name());
             trans.getMappingNumberRetryService().put(EnumUtils.getProgressEnum(service), defaultValue);
+            trans.getMappingResultWithMedia().put(EnumUtils.getProgressEnum(service), "");
             trans.getListService().add(service);
         }
         trans.setProgressEnum(EnumUtils.getProgressEnum(trans.getFirstService()));

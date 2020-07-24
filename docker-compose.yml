@@ -1,0 +1,18 @@
+version: '3'
+services:
+  mq:
+    image: rmohr/activemq
+    ports:
+      - 61616:61616
+      - 8161:8161
+
+  thesisdirector:
+    build:
+      context: .
+    image: chithuchcmus/thesisdirector
+    network_mode: "host"
+    ports:
+      - 8081:8081
+      - 6566:6566
+    depends_on:
+      - mq

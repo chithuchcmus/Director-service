@@ -22,6 +22,7 @@ public class GatewayClientImpl implements GatewayClient {
 
     @Override
     public ProcessResponse process(ProcessRequest request) {
+        log.info("process gateway request: {}", JsonUtils.printGson(request));
         GatewayServiceGrpc.GatewayServiceBlockingStub stub = poolManager.getStub(GatewayGrpcConfig.NAME);
         ProcessResponse response = stub.withDeadlineAfter(appConfig.getGateWayTimeOut(), TimeUnit.SECONDS).process(request);
         log.info("process gateway response: {}", JsonUtils.printGson(response));
@@ -30,6 +31,7 @@ public class GatewayClientImpl implements GatewayClient {
 
     @Override
     public GetStatusResponse getStatus(GetStatusRequest request) {
+        log.info("getStatus gateway request: {}", JsonUtils.printGson(request));
         GatewayServiceGrpc.GatewayServiceBlockingStub stub = poolManager.getStub(GatewayGrpcConfig.NAME);
         GetStatusResponse response = stub.withDeadlineAfter(appConfig.getGateWayTimeOut(), TimeUnit.SECONDS).getStatus(request);
         log.info("get status gateway response: {}", JsonUtils.printGson(response));

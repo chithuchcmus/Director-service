@@ -31,7 +31,6 @@ public class GetStatusSender implements QueueSender {
                 message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, appConfig.getSecondSleepBeforeGetStatus());
                 return message;
             });
-
         } catch (Exception e) {
             log.error("processorSender error, ex info: ", e);
         }

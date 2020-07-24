@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 
 import java.util.Map;
 
@@ -17,10 +15,9 @@ import java.util.Map;
 @Configuration
 @Data
 @NoArgsConstructor
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AppConfig {
     private int numberRetryGetStatus;
-    private int secondSleepBeforeGetStatus;
+    private long secondSleepBeforeGetStatus;
     private int secondProcessInLock;
     private int secondTransLogInCache;
     private int gateWayTimeOut;

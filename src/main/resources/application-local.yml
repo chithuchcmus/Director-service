@@ -1,5 +1,5 @@
 app:
-  numberRetryGetStatus: 5
+  numberRetryGetStatus: 30
   secondSleepBeforeGetStatus: 1000
   secondProcessInLock: 604800
   secondTransLogInCache: 604800
@@ -13,7 +13,7 @@ app:
 
 kafka-producer-config:
   webBackendBootstrapServers: "159.65.140.204:9092"
-  webBackendResultTopic: "status-callback-topic"
+  webBackendResultTopic: "status-topic"
   autoOffsetReset: "earliest"
   enableAutoCommit: true
   autoCommitIntervalMs: "30000" # miliseconds
@@ -22,9 +22,9 @@ kafka-producer-config:
 gateway:
   client:
     grpc:
-      target: "128.199.176.153:8082"
+      target: "159.65.13.169:8082"
       useSSL: false
       poolSize: 2
-  numberRetry: 1
+  numberRetry: 10
   clientID: 1
   clientKey: abc@123

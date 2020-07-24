@@ -27,13 +27,18 @@ public class Trans implements Serializable {
     private ProgressEnum progressEnum;
     private StatusEnum progressStatusEnum;
     private Map<ProgressEnum, Integer> mappingNumberRetryService;
-    private Map<ProgressEnum, Integer> mappingResultWithMedia;
+    private Map<ProgressEnum, String> mappingResultWithMedia;
     private List<ServiceType> listService;
 
     public Trans() {
         mappingNumberRetryService = new HashMap<>();
         mappingResultWithMedia = new HashMap<>();
         listService = new ArrayList<>();
+    }
+
+    public void setTwoStatus(StatusEnum statusEnum) {
+        this.progressStatusEnum = statusEnum;
+        this.status = statusEnum;
     }
 
     public ServiceType popFirstServiceType() {
