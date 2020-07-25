@@ -18,7 +18,7 @@ public class GatewayClientImpl implements GatewayClient {
     private GrpcPoolManager poolManager;
 
     @Autowired
-    private AppConfig appConfig;
+    AppConfig appConfig;
 
     @Override
     public ProcessResponse process(ProcessRequest request) {

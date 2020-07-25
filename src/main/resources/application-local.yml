@@ -25,6 +25,7 @@ gateway:
       target: "159.65.13.169:8082"
       useSSL: false
       poolSize: 2
-  numberRetry: 10
+  numberRetry: 30
+  timeSleep: 1000
   clientID: 1
   clientKey: abc@123

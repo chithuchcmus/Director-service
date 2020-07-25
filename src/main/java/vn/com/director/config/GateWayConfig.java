@@ -17,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class GateWayConfig implements Serializable {
     private int numberRetry;
+    private long timeSleep;
     private int clientID;
     private String clientKey;
 }

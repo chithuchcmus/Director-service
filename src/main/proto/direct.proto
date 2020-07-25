@@ -18,8 +18,11 @@ message DirectRequest {
 enum ServiceType{
   UNKNOWN = 0;
   TESSERACT = 1;
-  AI2 = 2;
-  AI3 = 3;
+  LANGUAGE_TOOL = 2;
+}
+
+enum RequestType{
+  AI_TYPE = 0;
 }
 message DirectResponse {
   int32 return_code = 1;

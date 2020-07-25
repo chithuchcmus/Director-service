@@ -1,36 +1,27 @@
 package vn.com.director.eums;
 
-import java.util.HashMap;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import vn.com.director.api.ServiceType;
 
-
+@Getter
+@AllArgsConstructor
 public enum ProgressEnum {
     UN_KNOW(0),
     TESSERACT(1),
-    AI2(2),
-    AI3(3);
+    LANGUAGE_TOOL(3);
 
-    private final int value;
-    private static final HashMap<Integer, ProgressEnum> returnMap = new HashMap();
+    private int value;
 
-    static {
-        for (ProgressEnum returnCodeEnum : ProgressEnum.values()) {
-            returnMap.put(returnCodeEnum.value, returnCodeEnum);
+    public static ProgressEnum getProgressEnum(ServiceType serviceType) {
+        switch (serviceType) {
+            case UNKNOWN:
+                return ProgressEnum.UN_KNOW;
+            case TESSERACT:
+                return ProgressEnum.TESSERACT;
+            case LANGUAGE_TOOL:
+                return ProgressEnum.LANGUAGE_TOOL;
         }
-    }
-
-    private ProgressEnum(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public static ProgressEnum fromInt(int strValue) throws Exception {
-        ProgressEnum value = returnMap.get(strValue);
-        if (value != null) {
-            return value;
-        }
-        throw new Exception("Not found " + ProgressEnum.class.getSimpleName() + " for " + strValue);
+        throw new IllegalArgumentException("invalid serviceType");
     }
 }

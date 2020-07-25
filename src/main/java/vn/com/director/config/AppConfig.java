@@ -16,8 +16,6 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class AppConfig {
-    private int numberRetryGetStatus;
-    private long secondSleepBeforeGetStatus;
     private int secondProcessInLock;
     private int secondTransLogInCache;
     private int gateWayTimeOut;

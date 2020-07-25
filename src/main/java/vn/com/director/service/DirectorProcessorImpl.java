@@ -14,11 +14,11 @@ import vn.com.director.dto.GatewayDataDTO;
 import vn.com.director.dto.GetStatusResponseDataDTO;
 import vn.com.director.dto.StatusCallbackMessage;
 import vn.com.director.dto.Trans;
+import vn.com.director.eums.ProgressEnum;
 import vn.com.director.eums.StatusEnum;
 import vn.com.director.queue.external.ResultMessageWebBackendProducer;
 import vn.com.director.queue.internal.GetStatusSender;
 import vn.com.director.queue.internal.ProcessorSender;
-import vn.com.director.util.EnumUtils;
 import vn.com.director.util.JsonUtils;
 import vn.com.director.util.SecurityUtils;
 
@@ -47,7 +47,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
     @Override
     public void callAIService(Trans trans) {
         try {
-            trans.setProgressEnum(EnumUtils.getProgressEnum(trans.popFirstServiceType()));
+            trans.setProgressEnum(ProgressEnum.getProgressEnum(trans.popFirstServiceType()));
             trans.setProgressStatusEnum(StatusEnum.PROCESSING);
             ProcessRequest request = buildRequest(trans);
             log.info("DirectorProcessorImpl.callAIService request: ", JsonUtils.printProtoLenient(request));
@@ -103,6 +103,8 @@ public class DirectorProcessorImpl implements DirectorProcessor {
             GetStatusResponseDataDTO gatewayDataDTO = JsonUtils.parseGson(statusResponse.getData(), GetStatusResponseDataDTO.class);
             trans.setProgressStatusEnum(StatusEnum.SUCCESS);
             trans.getMappingResultWithMedia().put(trans.getProgressEnum(), gatewayDataDTO.getId());
+            trans.setBeforeProcessEnum(trans.getProgressEnum());
+
             if (trans.getListService().isEmpty()) {
                 log.info("DirectorProcessorImpl.getStatusAIProcess successful: trans{} ", JsonUtils.printGson(trans));
                 trans.setStatus(StatusEnum.SUCCESS);
@@ -123,14 +125,10 @@ public class DirectorProcessorImpl implements DirectorProcessor {
         }
     }
 
-    protected ProcessRequest buildRequest(Trans trans) {
+    protected ProcessRequest buildRequest(Trans trans) throws Exception {
         ProcessRequest.Builder request = ProcessRequest.newBuilder();
-        GatewayDataDTO dataDTO = GatewayDataDTO.builder()
-                .eventType(trans.getProgressEnum().getValue())
-                .id(trans.getIdMedia())
-                .build();
+        String stringDataDto = getStringDataRequest(trans);
         request.setClientId(gateWayConfig.getClientID());
-        String stringDataDto = JsonUtils.printGson(dataDTO);
         request.setData(stringDataDto);
         log.info("string data dto :{}", stringDataDto);
         long currentTime = System.currentTimeMillis();
@@ -142,6 +140,18 @@ public class DirectorProcessorImpl implements DirectorProcessor {
     protected GetStatusRequest buildStatusRequest(Trans trans) {
         return GetStatusRequest.newBuilder()
                 .setTransId(trans.getGateWayTransID()).build();
+    }
+
+    protected String getStringDataRequest(Trans trans) throws Exception {
+        switch (trans.getRequestType()) {
+            case AI_TYPE:
+                GatewayDataDTO dataDTO = GatewayDataDTO.builder()
+                        .eventType(trans.getProgressEnum().getValue())
+                        .id(trans.getMappingResultWithMedia().get(trans.getBeforeProcessEnum()))
+                        .build();
+                return JsonUtils.printGson(dataDTO);
+        }
+        throw new Exception("invalid request type");
     }
 
     protected void sendCallbackStatus(Trans trans) {

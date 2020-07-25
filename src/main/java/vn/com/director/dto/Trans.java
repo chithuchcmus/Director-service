@@ -3,6 +3,7 @@ package vn.com.director.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import vn.com.director.api.RequestType;
 import vn.com.director.api.ServiceType;
 import vn.com.director.eums.ProgressEnum;
 import vn.com.director.eums.StatusEnum;
@@ -24,7 +25,9 @@ public class Trans implements Serializable {
     private String gatewayResult;
     private String clientID;
     private StatusEnum status;
+    private RequestType requestType;
     private ProgressEnum progressEnum;
+    private ProgressEnum beforeProcessEnum;
     private StatusEnum progressStatusEnum;
     private Map<ProgressEnum, Integer> mappingNumberRetryService;
     private Map<ProgressEnum, String> mappingResultWithMedia;
