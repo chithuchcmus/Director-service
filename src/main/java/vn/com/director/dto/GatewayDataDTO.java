@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 public class GatewayDataDTO implements Serializable {
     @SerializedName("event_type")
-    private int eventType;
+    private String eventType;
 
     @SerializedName("id")
     private String id;

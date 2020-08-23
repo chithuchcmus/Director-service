@@ -146,7 +146,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
             case AI_TYPE:
                 //TODO update
                 GatewayDataDTO dataDTO = GatewayDataDTO.builder()
-                        .eventType(trans.getProgressEnum().getNumber())
+                        .eventType(trans.getProgressEnum().name())
                         .id(trans.getMappingResultWithMedia().get(trans.getBeforeProcessEnum()))
                         .build();
                 return JsonUtils.printGson(dataDTO);
