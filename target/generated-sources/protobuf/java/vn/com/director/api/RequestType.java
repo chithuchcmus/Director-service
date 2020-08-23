@@ -4,37 +4,21 @@
 package vn.com.director.api;
 
 /**
- * Protobuf enum {@code director.api.ServiceType}
+ * Protobuf enum {@code director.api.RequestType}
  */
-public enum ServiceType
+public enum RequestType
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
-   * <code>UNKNOWN = 0;</code>
+   * <code>AI_TYPE = 0;</code>
    */
-  UNKNOWN(0),
-  /**
-   * <code>TESSERACT = 1;</code>
-   */
-  TESSERACT(1),
-  /**
-   * <code>LANGUAGETOOL = 2;</code>
-   */
-  LANGUAGETOOL(2),
+  AI_TYPE(0),
   UNRECOGNIZED(-1),
   ;
 
   /**
-   * <code>UNKNOWN = 0;</code>
+   * <code>AI_TYPE = 0;</code>
    */
-  public static final int UNKNOWN_VALUE = 0;
-  /**
-   * <code>TESSERACT = 1;</code>
-   */
-  public static final int TESSERACT_VALUE = 1;
-  /**
-   * <code>LANGUAGETOOL = 2;</code>
-   */
-  public static final int LANGUAGETOOL_VALUE = 2;
+  public static final int AI_TYPE_VALUE = 0;
 
 
   public final int getNumber() {
@@ -49,28 +33,26 @@ public enum ServiceType
    * @deprecated Use {@link #forNumber(int)} instead.
    */
   @java.lang.Deprecated
-  public static ServiceType valueOf(int value) {
+  public static RequestType valueOf(int value) {
     return forNumber(value);
   }
 
-  public static ServiceType forNumber(int value) {
+  public static RequestType forNumber(int value) {
     switch (value) {
-      case 0: return UNKNOWN;
-      case 1: return TESSERACT;
-      case 2: return LANGUAGETOOL;
+      case 0: return AI_TYPE;
       default: return null;
     }
   }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<ServiceType>
+  public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
       internalGetValueMap() {
     return internalValueMap;
   }
   private static final com.google.protobuf.Internal.EnumLiteMap<
-      ServiceType> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<ServiceType>() {
-          public ServiceType findValueByNumber(int number) {
-            return ServiceType.forNumber(number);
+      RequestType> internalValueMap =
+        new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+          public RequestType findValueByNumber(int number) {
+            return RequestType.forNumber(number);
           }
         };
 
@@ -84,12 +66,12 @@ public enum ServiceType
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return vn.com.director.api.Direct.getDescriptor().getEnumTypes().get(0);
+    return vn.com.director.api.Direct.getDescriptor().getEnumTypes().get(1);
   }
 
-  private static final ServiceType[] VALUES = values();
+  private static final RequestType[] VALUES = values();
 
-  public static ServiceType valueOf(
+  public static RequestType valueOf(
       com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
     if (desc.getType() != getDescriptor()) {
       throw new java.lang.IllegalArgumentException(
@@ -103,10 +85,10 @@ public enum ServiceType
 
   private final int value;
 
-  private ServiceType(int value) {
+  private RequestType(int value) {
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:director.api.ServiceType)
+  // @@protoc_insertion_point(enum_scope:director.api.RequestType)
 }
 

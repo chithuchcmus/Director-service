@@ -6,8 +6,8 @@ import vn.com.director.dto.Trans;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2020-07-23T00:57:56+0700",
-    comments = "version: 1.2.0.Final, compiler: javac, environment: Java 1.8.0_252 (Private Build)"
+    date = "2020-08-19T23:40:23+0700",
+    comments = "version: 1.2.0.Final, compiler: javac, environment: Java 1.8.0_265 (Private Build)"
 )
 public class RequestMapperImpl implements RequestMapper {
 

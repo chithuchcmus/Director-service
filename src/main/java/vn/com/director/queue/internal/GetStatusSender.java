@@ -26,7 +26,7 @@ public class GetStatusSender implements QueueSender {
     @Override
     public void sendMessage(Trans request) {
         try {
-            log.info("send request to getStatus service: {}", JsonUtils.printGson(request));
+                log.info("send request to getStatus service: {}", JsonUtils.printGson(request));
             jmsTemplate.convertAndSend(destination, request, message -> {
                 message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, gateWayConfig.getTimeSleep());
                 return message;

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import vn.com.director.api.RequestType;
 import vn.com.director.api.ServiceType;
-import vn.com.director.eums.ProgressEnum;
 import vn.com.director.eums.StatusEnum;
 
 import java.io.Serializable;
@@ -26,11 +25,11 @@ public class Trans implements Serializable {
     private String clientID;
     private StatusEnum status;
     private RequestType requestType;
-    private ProgressEnum progressEnum;
-    private ProgressEnum beforeProcessEnum;
+    private ServiceType progressEnum;
+    private ServiceType beforeProcessEnum;
     private StatusEnum progressStatusEnum;
-    private Map<ProgressEnum, Integer> mappingNumberRetryService;
-    private Map<ProgressEnum, String> mappingResultWithMedia;
+    private Map<ServiceType, Integer> mappingNumberRetryService;
+    private Map<ServiceType, String> mappingResultWithMedia;
     private List<ServiceType> listService;
 
     public Trans() {
@@ -56,13 +55,13 @@ public class Trans implements Serializable {
         return status == StatusEnum.PROCESSING;
     }
 
-    public void increaseNumberRetry(ProgressEnum progressEnum) {
+    public void increaseNumberRetry(ServiceType serviceType) {
         Integer numberRetry = mappingNumberRetryService.get(progressEnum);
         numberRetry = numberRetry + 1;
         mappingNumberRetryService.put(progressEnum, numberRetry);
     }
 
-    public int getNumberRetry(ProgressEnum progressEnum) {
+    public int getNumberRetry(ServiceType serviceType) {
         Integer numberRetry = mappingNumberRetryService.get(progressEnum);
         return numberRetry.intValue();
     }

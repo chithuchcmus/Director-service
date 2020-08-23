@@ -18,7 +18,7 @@ message DirectRequest {
 enum ServiceType{
   UNKNOWN = 0;
   TESSERACT = 1;
-  LANGUAGE_TOOL = 2;
+  LANGUAGETOOL = 2;
 }
 
 enum RequestType{

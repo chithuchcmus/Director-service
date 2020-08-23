@@ -11,7 +11,6 @@ import vn.com.director.cache.CacheClient;
 import vn.com.director.config.AppConfig;
 import vn.com.director.dto.DirectorRequestDTO;
 import vn.com.director.dto.Trans;
-import vn.com.director.eums.ProgressEnum;
 import vn.com.director.eums.StatusEnum;
 import vn.com.director.mapper.RequestMapper;
 import vn.com.director.queue.internal.ProcessorSender;
@@ -135,13 +134,13 @@ public class DirectorServiceImpl implements DirectorService {
         int defaultValue = 0;
         DirectorRequestDTO directorRequestDTO = JsonUtils.parseGson(request.getData(), DirectorRequestDTO.class);
         trans.setRequestType(directorRequestDTO.getRequestType());
-        trans.getMappingResultWithMedia().put(ProgressEnum.UN_KNOW, directorRequestDTO.getIdMedia());
-        trans.setBeforeProcessEnum(ProgressEnum.UN_KNOW);
+        trans.getMappingResultWithMedia().put(ServiceType.UNKNOWN, directorRequestDTO.getIdMedia());
+        trans.setBeforeProcessEnum(ServiceType.UNKNOWN);
         for (ServiceType service : directorRequestDTO.getServiceTypeList()) {
-            trans.getMappingNumberRetryService().put(ProgressEnum.getProgressEnum(service), defaultValue);
+            trans.getMappingNumberRetryService().put(service, defaultValue);
             trans.getListService().add(service);
         }
-        trans.setProgressEnum(ProgressEnum.getProgressEnum(trans.getFirstService()));
+        trans.setProgressEnum(trans.getFirstService());
         trans.getMappingResultWithMedia().put(trans.getProgressEnum(), directorRequestDTO.getIdMedia());
         return trans;
     }

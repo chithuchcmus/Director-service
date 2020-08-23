@@ -46,13 +46,13 @@ public final class Direct {
       "\001(\t\"Z\n\023StatusDirectRequest\022\017\n\007transID\030\001 " +
       "\001(\t\022\020\n\010clientID\030\002 \001(\005\022\023\n\013requestDate\030\003 \001" +
       "(\003\022\013\n\003sig\030\004 \001(\t*;\n\013ServiceType\022\013\n\007UNKNOW" +
-      "N\020\000\022\r\n\tTESSERACT\020\001\022\007\n\003AI2\020\002\022\007\n\003AI3\020\0032\261\001\n" +
-      "\017DirectorService\022J\n\rprocessDirect\022\033.dire" +
-      "ctor.api.DirectRequest\032\034.director.api.Di" +
-      "rectResponse\022R\n\017getStatusDirect\022!.direct" +
-      "or.api.StatusDirectRequest\032\034.director.ap" +
-      "i.DirectResponseB\027\n\023vn.com.director.apiP" +
-      "\001b\006proto3"
+      "N\020\000\022\r\n\tTESSERACT\020\001\022\020\n\014LANGUAGETOOL\020\002*\032\n\013" +
+      "RequestType\022\013\n\007AI_TYPE\020\0002\261\001\n\017DirectorSer" +
+      "vice\022J\n\rprocessDirect\022\033.director.api.Dir" +
+      "ectRequest\032\034.director.api.DirectResponse" +
+      "\022R\n\017getStatusDirect\022!.director.api.Statu" +
+      "sDirectRequest\032\034.director.api.DirectResp" +
+      "onseB\027\n\023vn.com.director.apiP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

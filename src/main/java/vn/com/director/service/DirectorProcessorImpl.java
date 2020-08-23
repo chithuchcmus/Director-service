@@ -14,7 +14,6 @@ import vn.com.director.dto.GatewayDataDTO;
 import vn.com.director.dto.GetStatusResponseDataDTO;
 import vn.com.director.dto.StatusCallbackMessage;
 import vn.com.director.dto.Trans;
-import vn.com.director.eums.ProgressEnum;
 import vn.com.director.eums.StatusEnum;
 import vn.com.director.queue.external.ResultMessageWebBackendProducer;
 import vn.com.director.queue.internal.GetStatusSender;
@@ -47,7 +46,7 @@ public class DirectorProcessorImpl implements DirectorProcessor {
     @Override
     public void callAIService(Trans trans) {
         try {
-            trans.setProgressEnum(ProgressEnum.getProgressEnum(trans.popFirstServiceType()));
+            trans.setProgressEnum(trans.popFirstServiceType());
             trans.setProgressStatusEnum(StatusEnum.PROCESSING);
             ProcessRequest request = buildRequest(trans);
             log.info("DirectorProcessorImpl.callAIService request: ", JsonUtils.printProtoLenient(request));
@@ -145,8 +144,9 @@ public class DirectorProcessorImpl implements DirectorProcessor {
     protected String getStringDataRequest(Trans trans) throws Exception {
         switch (trans.getRequestType()) {
             case AI_TYPE:
+                //TODO update
                 GatewayDataDTO dataDTO = GatewayDataDTO.builder()
-                        .eventType(trans.getProgressEnum().getValue())
+                        .eventType(trans.getProgressEnum().getNumber())
                         .id(trans.getMappingResultWithMedia().get(trans.getBeforeProcessEnum()))
                         .build();
                 return JsonUtils.printGson(dataDTO);
